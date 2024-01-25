@@ -28,9 +28,21 @@ export default function Home() {
         return selectedCountry.regex.test(taxId);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         setSubmitAttempted(true);
-        // Add your submit logic here
+
+        const data = {
+            name,
+            country: selectedCountry?.code,
+            taxId,
+        };
+
+        const response = await fetch('/api/tax', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+
+        return response.json();
     };
 
     return (
