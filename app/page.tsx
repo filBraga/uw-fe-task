@@ -9,10 +9,12 @@ import { CountryType } from './types';
 import { useState } from 'react';
 import { countries } from './utils/countries';
 import React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
     const [name, setName] = useState<string>('');
-    const [selectedCountry, setSelectedCountry] = useState<CountryType | null>(null);
+    const [country, setCountry] = useState<CountryType | null>(null);
     const [taxId, setTaxId] = useState<string>('');
     const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
 
@@ -21,12 +23,12 @@ export default function Home() {
     };
 
     const isCountryValid = () => {
-        return selectedCountry !== null;
+        return country !== null;
     };
 
     const isTaxIdValid = () => {
-        if (!selectedCountry || !taxId) return false;
-        return selectedCountry.regex.test(taxId);
+        if (!country || !taxId) return false;
+        return country.regex.test(taxId);
     };
 
     const postData = async () => {
@@ -34,7 +36,7 @@ export default function Home() {
             method: 'POST',
             body: JSON.stringify({
                 name,
-                country: selectedCountry?.code,
+                country,
                 taxId,
             }),
         });
@@ -46,7 +48,9 @@ export default function Home() {
 
         postData()
             .then((data) => {
-                alert(data.message);
+                toast(data.message, {
+                    type: data.status == 200 ? 'success' : 'error',
+                });
             })
             .catch((error) => {
                 console.error('There was an error!', error);
@@ -68,7 +72,7 @@ export default function Home() {
                 />
                 <CountrySelect
                     countries={countries}
-                    onChange={(country) => setSelectedCountry(country)}
+                    onChange={(country) => setCountry(country)}
                     error={!isCountryValid() && submitAttempted}
                     helperText={!isCountryValid() && submitAttempted ? 'Please select a country' : ''}
                 />
@@ -85,6 +89,18 @@ export default function Home() {
                 <Button onClick={handleSubmit} variant="contained">
                     Submit
                 </Button>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
             </Paper>
         </main>
     );
