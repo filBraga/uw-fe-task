@@ -48,15 +48,19 @@ export default function Home() {
 
         if (!isNameValid() || !isCountryValid() || !isTaxIdValid()) return;
 
-        postData()
-            .then((data) => {
-                toast(data.message, {
-                    type: data.status == 200 ? 'success' : 'error',
-                });
-            })
-            .catch((error) => {
-                console.error('There was an error!', error);
+        try {
+            const data = await postData();
+            toast(data.message, {
+                type: data.status === 200 ? 'success' : 'error',
             });
+
+            setName('');
+            setCountry(null);
+            setTaxId('');
+            setSubmitAttempted(false);
+        } catch (error) {
+            console.error('There was an error!', error);
+        }
     };
 
     return (
@@ -74,6 +78,7 @@ export default function Home() {
                 />
                 <CountrySelect
                     countries={countries}
+                    value={country}
                     onChange={(country) => setCountry(country)}
                     error={!isCountryValid() && submitAttempted}
                     helperText={!isCountryValid() && submitAttempted ? 'Please select a country' : ''}

@@ -9,9 +9,10 @@ interface CountrySelectProps {
     onChange: (country: CountryType | null) => void;
     error: boolean;
     helperText: string;
+    value: CountryType | null;
 }
 
-export default function CountrySelect({ countries, onChange, error, helperText }: CountrySelectProps) {
+export default function CountrySelect({ countries, onChange, error, helperText, value }: CountrySelectProps) {
     return (
         <Autocomplete
             id="country-select-demo"
@@ -19,6 +20,7 @@ export default function CountrySelect({ countries, onChange, error, helperText }
             options={countries}
             autoHighlight
             getOptionLabel={(option) => option.label}
+            value={value}
             onChange={(event, newValue) => {
                 onChange(newValue);
             }}
