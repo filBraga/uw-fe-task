@@ -1,12 +1,13 @@
 'use client';
 
+import React from 'react';
+import { useState } from 'react';
 import styles from './page.module.css';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import CountrySelect from './components/CountrySelect';
 import Button from '@mui/material/Button';
 import { CountryType } from './types';
-import { useState } from 'react';
 import { countries } from './utils/countries';
 
 export default function Home() {
