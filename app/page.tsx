@@ -43,8 +43,10 @@ export default function Home() {
         return response.json();
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async () => {
         setSubmitAttempted(true);
+
+        if (!isNameValid() || !isCountryValid() || !isTaxIdValid()) return;
 
         postData()
             .then((data) => {
