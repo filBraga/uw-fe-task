@@ -4,6 +4,7 @@ import styles from './page.module.css';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import CountrySelect from './components/CountrySelect';
+import Button from '@mui/material/Button';
 import { CountryType } from './types';
 import { useState } from 'react';
 import { countries } from './utils/countries';
@@ -12,14 +13,24 @@ export default function Home() {
     const [name, setName] = useState<string>('');
     const [selectedCountry, setSelectedCountry] = useState<CountryType | null>(null);
     const [taxId, setTaxId] = useState<string>('');
+    const [submitAttempted, setSubmitAttempted] = useState<boolean>(false);
 
     const isNameValid = () => {
         return name.length >= 3;
     };
 
+    const isCountryValid = () => {
+        return selectedCountry !== null;
+    };
+
     const isTaxIdValid = () => {
         if (!selectedCountry || !taxId) return false;
         return selectedCountry.regex.test(taxId);
+    };
+
+    const handleSubmit = () => {
+        setSubmitAttempted(true);
+        // Add your submit logic here
     };
 
     return (
@@ -32,10 +43,15 @@ export default function Home() {
                     variant="outlined"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    error={!isNameValid() && name.length > 0}
-                    helperText={!isNameValid() && taxId.length > 0 ? 'Minimum name length: 3 characters' : ''}
+                    error={!isNameValid() && submitAttempted}
+                    helperText={!isNameValid() && submitAttempted ? 'Minimum name length: 3 characters' : ''}
                 />
-                <CountrySelect countries={countries} onChange={(country) => setSelectedCountry(country)} />
+                <CountrySelect
+                    countries={countries}
+                    onChange={(country) => setSelectedCountry(country)}
+                    error={!isCountryValid() && submitAttempted}
+                    helperText={!isCountryValid() && submitAttempted ? 'Please select a country' : ''}
+                />
                 <TextField
                     className={styles.input}
                     id="tax"
@@ -43,9 +59,12 @@ export default function Home() {
                     variant="outlined"
                     value={taxId}
                     onChange={(e) => setTaxId(e.target.value)}
-                    error={!isTaxIdValid() && taxId.length > 0}
-                    helperText={!isTaxIdValid() && taxId.length > 0 ? 'Invalid Tax ID for selected country' : ''}
+                    error={!isTaxIdValid() && submitAttempted}
+                    helperText={!isTaxIdValid() && submitAttempted ? 'Invalid Tax ID for selected country' : ''}
                 />
+                <Button onClick={handleSubmit} variant="contained">
+                    Submit
+                </Button>
             </Paper>
         </main>
     );

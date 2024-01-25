@@ -7,13 +7,15 @@ import { CountryType } from '../types';
 interface CountrySelectProps {
     countries: CountryType[];
     onChange: (country: CountryType | null) => void;
+    error: boolean;
+    helperText: string;
 }
 
-export default function CountrySelect({ countries, onChange }: CountrySelectProps) {
+export default function CountrySelect({ countries, onChange, error, helperText }: CountrySelectProps) {
     return (
         <Autocomplete
             id="country-select-demo"
-            sx={{ width: 300 }}
+            sx={{ width: '100%' }}
             options={countries}
             autoHighlight
             getOptionLabel={(option) => option.label}
@@ -35,7 +37,9 @@ export default function CountrySelect({ countries, onChange }: CountrySelectProp
             renderInput={(params) => (
                 <TextField
                     {...params}
+                    error={error}
                     label="Choose a country"
+                    helperText={helperText}
                     inputProps={{
                         ...params.inputProps,
                         autoComplete: 'new-password', // disable autocomplete and autofill
