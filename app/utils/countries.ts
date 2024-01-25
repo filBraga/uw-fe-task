@@ -1,7 +1,7 @@
 import { CountryType } from '../types';
 
 export const countries: CountryType[] = [
-    { code: 'AR', label: 'Argentina', regex: /^\d{1}-[A-Z]{1}-\d{1}$/i },
+    { code: 'AR', label: 'Argentina', regex: /^\d{1}$/i },
     { code: 'AU', label: 'Australia', regex: /^\d{2}-[A-Z]{1}-\d{1}$/i },
     { code: 'BR', label: 'Brazil', regex: /^\d{3}-[A-Z]{1}-\d{1}$/i },
     { code: 'CA', label: 'Canada', regex: /^[ABD0-9]{10}-[A-Z]{2}$/i },
