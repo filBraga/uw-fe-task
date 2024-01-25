@@ -21,10 +21,7 @@ export default function Home() {
         <main className={styles.main}>
             <Paper className={styles.card} elevation={3}>
                 <TextField className={styles.input} id="outlined-basic" label="Name" variant="outlined" />
-                <CountrySelect
-                    countries={countries}
-                    onChange={(country) => setSelectedCountry(country)} // Update the selected country
-                />
+                <CountrySelect countries={countries} onChange={(country) => setSelectedCountry(country)} />
                 <TextField
                     className={styles.input}
                     id="outlined-basic"
@@ -32,7 +29,7 @@ export default function Home() {
                     variant="outlined"
                     value={taxId}
                     onChange={(e) => setTaxId(e.target.value)}
-                    error={!isTaxIdValid() && taxId.length > 0} // Show error if tax ID is invalid
+                    error={!isTaxIdValid() && taxId.length > 0}
                     helperText={!isTaxIdValid() && taxId.length > 0 ? 'Invalid Tax ID for selected country' : ''}
                 />{' '}
             </Paper>
