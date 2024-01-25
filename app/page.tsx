@@ -1,14 +1,14 @@
 'use client';
 
-import React from 'react';
-import { useState } from 'react';
 import styles from './page.module.css';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import CountrySelect from './components/CountrySelect';
 import Button from '@mui/material/Button';
 import { CountryType } from './types';
+import { useState } from 'react';
 import { countries } from './utils/countries';
+import React from 'react';
 
 export default function Home() {
     const [name, setName] = useState<string>('');
@@ -29,21 +29,28 @@ export default function Home() {
         return selectedCountry.regex.test(taxId);
     };
 
-    const handleSubmit = async () => {
-        setSubmitAttempted(true);
-
-        const data = {
-            name,
-            country: selectedCountry?.code,
-            taxId,
-        };
-
+    const postData = async () => {
         const response = await fetch('/api/tax', {
             method: 'POST',
-            body: JSON.stringify(data),
+            body: JSON.stringify({
+                name,
+                country: selectedCountry?.code,
+                taxId,
+            }),
         });
-
         return response.json();
+    };
+
+    const handleSubmit = async (e) => {
+        setSubmitAttempted(true);
+
+        postData()
+            .then((data) => {
+                alert(data.message);
+            })
+            .catch((error) => {
+                console.error('There was an error!', error);
+            });
     };
 
     return (
