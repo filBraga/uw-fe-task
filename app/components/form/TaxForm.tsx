@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import styles from './taxForm.module.css';
+import styles from './TaxForm.module.css';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import CountrySelect from '../../components/input/CountrySelect';
