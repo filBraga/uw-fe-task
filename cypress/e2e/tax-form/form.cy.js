@@ -21,5 +21,8 @@ describe('tax app app', () => {
         cy.get('#tax').type('1');
         cy.get('button').contains('Submit').click();
         cy.contains('Success!');
+        cy.get('#name').should('have.value', '');
+        cy.get('#tax').should('have.value', '');
+        cy.get('[id="country-select"]').should('have.value', '');
     });
 });
