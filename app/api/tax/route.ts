@@ -1,15 +1,16 @@
 import { NextResponse } from 'next/server';
 import { countries } from '../../utils/countries';
+import { CountryType } from '../../types';
 
-const isNameValid = ({ name }) => {
+const isNameValid = ({ name }: { name: string }) => {
     return name.length >= 3;
 };
 
-const isCountryValid = ({ country }) => {
+const isCountryValid = ({ country }: { country: string }) => {
     return country !== null;
 };
 
-const isTaxIdValid = ({ country, taxId }) => {
+const isTaxIdValid = ({ country, taxId }: { country: CountryType; taxId: string }) => {
     if (!country || !taxId) return false;
     const countryData = countries.find((c) => c.code === country.code);
     return countryData?.regex.test(taxId);
