@@ -15,7 +15,7 @@ interface CountrySelectProps {
 export default function CountrySelect({ countries, onChange, error, helperText, value }: CountrySelectProps) {
     return (
         <Autocomplete
-            id="country-select-demo"
+            id="country-select"
             sx={{ width: '100%' }}
             options={countries}
             autoHighlight
